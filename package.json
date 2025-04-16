@@ -1,0 +1,33 @@
+{
+    "name": "medooze-spacebar-wrtc",
+    "version": "1.0.0",
+    "description": "A webrtc server implementation compatible with Spacebar that uses Medooze Media server library",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "@dank074/medooze-media-server": "1.156.4",
+        "semantic-sdp": "^3.31.1"
+    },
+    "devDependencies": {
+        "@types/node": "^20.17.1",
+        "typescript": "^5.6.3",
+        "spacebar-webrtc-types": "github:dank074/spacebar-webrtc-types"
+    },
+    "peerDependencies": {
+        "spacebar-webrtc-types": "github:dank074/spacebar-webrtc-types"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dank074/medooze-spacebar-wrtc.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/dank074/medooze-spacebar-wrtc/issues"
+    },
+    "homepage": "https://github.com/dank074/medooze-spacebar-wrtc#readme"
+}
