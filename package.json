@@ -4,6 +4,13 @@
     "description": "A webrtc server implementation compatible with Spacebar that uses Medooze Media server library",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "build": "tsc",
         "test": "echo \"Error: no test specified\" && exit 1"
