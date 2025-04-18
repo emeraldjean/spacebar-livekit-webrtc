@@ -10,7 +10,7 @@ import EventEmitter from "events";
 export class MedoozeWebRtcClient implements WebRtcClient<any> {
 	websocket: any;
 	user_id: string;
-	rtc_server_id: string;
+	voiceRoomId: string;
 	webrtcConnected: boolean;
 	emitter: ClientEmitter;
 	public transport?: Transport;
@@ -22,12 +22,12 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 
 	constructor(
 		userId: string,
-		rtcServerId: string,
+		roomId: string,
 		websocket: any,
 		room: VoiceRoom,
 	) {
 		this.user_id = userId;
-		this.rtc_server_id = rtcServerId;
+		this.voiceRoomId = roomId;
 		this.websocket = websocket;
 		this.room = room;
 		this.webrtcConnected = false;
@@ -120,6 +120,23 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 		);
 
 		//this.channel?.onClientPublishTrack(this, track, ssrcs);
+	}
+
+	public stopPublishingTrack(type: "audio" | "video"): void {
+		const id = `${type}-${this.user_id}`;
+		const track = this.incomingStream?.getTrack(id);
+
+		if(!track) return;
+		if(!this.room) return;
+
+		for (const otherClient of this.room.clients.values()) {
+			//remove outgoing track for this user
+			otherClient.outgoingStream
+				?.getTrack(type)
+				?.stop();
+		}
+
+		track.stop();
 	}
 
 	public subscribeToTrack(user_id: string, type: "audio" | "video") {

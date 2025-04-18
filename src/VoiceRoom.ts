@@ -76,6 +76,7 @@ export class VoiceRoom {
             client.outgoingStream = undefined;
             client.transport = undefined;
             client.websocket = undefined;
+            client.emitter.removeAllListeners();
         }
     };
 

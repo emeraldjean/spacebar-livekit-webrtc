@@ -33,7 +33,7 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 	}
 
 	public join(
-		rtcServerId: string,
+		roomId: string,
 		userId: string,
 		ws: any,
 		type: "guild-voice" | "dm-voice" | "stream",
@@ -62,14 +62,14 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 			this.onClientClose(existingClient);
 		}
 
-		if (!this._rooms.has(rtcServerId)) {
-			console.debug("no channel created, creating one...");
-			this.createRoom(rtcServerId, type);
+		if (!this._rooms.has(roomId)) {
+			console.debug("no room created, creating one...");
+			this.createRoom(roomId, type);
 		}
 
-		const room = this._rooms.get(rtcServerId)!;
+		const room = this._rooms.get(roomId)!;
 
-		const client = new MedoozeWebRtcClient(userId, rtcServerId, ws, room);
+		const client = new MedoozeWebRtcClient(userId, roomId, ws, room);
 
 		room?.onClientJoin(client);
 
@@ -81,7 +81,7 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 		sdpOffer: string,
 		codecs: Codec[],
 	): Promise<{sdp: string, selectedVideoCodec: string}> {
-		const room = this._rooms.get(client.rtc_server_id);
+		const room = this._rooms.get(client.voiceRoomId);
 
 		if (!room) {
 			console.error(
@@ -230,7 +230,7 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 	}
 
 	public onClientClose = (client: WebRtcClient<any>) => {
-		this._rooms.get(client.rtc_server_id)?.onClientLeave(client);
+		this._rooms.get(client.voiceRoomId)?.onClientLeave(client);
 	};
 
 	public updateSDP(offer: string): void {
