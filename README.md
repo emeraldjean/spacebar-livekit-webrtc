@@ -1,6 +1,11 @@
 # Medooze Spacebar WRTC
 A spacebar-compatible WebRTC server
 
+## Supported environments:
+- Linux
+- Mac Os X
+- Raspberry Pi
+
 ## Usage
 Simply install it to your spacebar server by running the following command:
 ```
