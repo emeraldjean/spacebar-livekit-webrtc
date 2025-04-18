@@ -3,19 +3,22 @@ import {
 	OutgoingStream,
 	Transport,
 } from "@dank074/medooze-media-server";
-import type { SSRCs, WebRtcClient } from "spacebar-webrtc-types";
+import type { ClientEmitter, SSRCs, WebRtcClient } from "spacebar-webrtc-types";
 import { VoiceRoom } from "./VoiceRoom";
+import EventEmitter from "events";
 
 export class MedoozeWebRtcClient implements WebRtcClient<any> {
 	websocket: any;
 	user_id: string;
 	rtc_server_id: string;
 	webrtcConnected: boolean;
+	emitter: ClientEmitter;
 	public transport?: Transport;
 	public incomingStream?: IncomingStream;
 	public outgoingStream?: OutgoingStream;
 	public room?: VoiceRoom;
 	public isStopped?: boolean;
+	public incomingSSRCS?: SSRCs;
 
 	constructor(
 		userId: string,
@@ -29,6 +32,7 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 		this.room = room;
 		this.webrtcConnected = false;
 		this.isStopped = false;
+		this.emitter = new EventEmitter()
 	}
 
 	public isProducingAudio(): boolean {
@@ -53,25 +57,26 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 		return false;
 	}
 
+	public isSubscribedToTrack(user_id: string, type: "audio" | "video"): boolean {
+		if (!this.webrtcConnected) return false;
+
+		const id = `${type}-${user_id}`;
+
+		const track = this.outgoingStream?.getTrack(id);
+
+		if(track) return true;
+
+		return false;
+	}
+
 	public getIncomingStreamSSRCs(): SSRCs {
 		if (!this.webrtcConnected)
 			return { audio_ssrc: 0, video_ssrc: 0, rtx_ssrc: 0 };
 
-		const audioTrack = this.incomingStream?.getTrack(
-			`audio-${this.user_id}`,
-		);
-		const audio_ssrc =
-			audioTrack?.getSSRCs()[audioTrack.getDefaultEncoding().id];
-		const videoTrack = this.incomingStream?.getTrack(
-			`video-${this.user_id}`,
-		);
-		const video_ssrc =
-			videoTrack?.getSSRCs()[videoTrack.getDefaultEncoding().id];
-
 		return {
-			audio_ssrc: audio_ssrc?.media ?? 0,
-			video_ssrc: video_ssrc?.media ?? 0,
-			rtx_ssrc: video_ssrc?.rtx ?? 0,
+			audio_ssrc: this.incomingSSRCS?.audio_ssrc ?? 0,
+			video_ssrc: this.incomingSSRCS?.video_ssrc ?? 0,
+			rtx_ssrc: this.incomingSSRCS?.rtx_ssrc ?? 0,
 		};
 	}
 
@@ -103,8 +108,10 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 		let ssrcs;
 		if (type === "audio") {
 			ssrcs = { media: ssrc.audio_ssrc! };
+			this.incomingSSRCS = { ...this.incomingSSRCS, audio_ssrc: ssrc.audio_ssrc }
 		} else {
 			ssrcs = { media: ssrc.video_ssrc!, rtx: ssrc.rtx_ssrc };
+			this.incomingSSRCS = { ...this.incomingSSRCS, video_ssrc: ssrc.video_ssrc, rtx_ssrc: ssrc.rtx_ssrc }
 		}
 		const track = this.transport?.createIncomingStreamTrack(
 			type,
@@ -148,5 +155,15 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 		);
 
 		outgoingTrack?.attachTo(incomingTrack);
+	}
+
+	public unSubscribeFromTrack(user_id: string, type: "audio" | "video"): void {
+		if (!this.webrtcConnected) return;
+
+		const id = `${type}-${user_id}`;
+
+		const track = this.outgoingStream?.getTrack(id);
+
+		track?.stop()
 	}
 }

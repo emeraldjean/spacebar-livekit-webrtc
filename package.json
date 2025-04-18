@@ -1,6 +1,6 @@
 {
     "name": "medooze-spacebar-wrtc",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A webrtc server implementation compatible with Spacebar that uses Medooze Media server library",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",

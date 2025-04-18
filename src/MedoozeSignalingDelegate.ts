@@ -80,7 +80,7 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 		client: WebRtcClient<any>,
 		sdpOffer: string,
 		codecs: Codec[],
-	): Promise<string> {
+	): Promise<{sdp: string, selectedVideoCodec: string}> {
 		const room = this._rooms.get(client.rtc_server_id);
 
 		if (!room) {
@@ -133,6 +133,7 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 			);
 
 		const videoMedia = new MediaInfo("1", "video");
+
 		const videoCodec = new CodecInfo(
 			"H264",
 			codecs.find((val) => val.name == "H264")?.payload_type ?? 102,
@@ -145,6 +146,18 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 		videoCodec.addParam("profile-level-id", "42e01f");
 		videoCodec.addParam("x-google-max-bitrate", "2500");
 		videoMedia.addCodec(videoCodec);
+
+		/*
+		const videoCodec = new CodecInfo(
+			"VP8",
+			codecs.find((val) => val.name == "VP8")?.payload_type ?? 102,
+		);
+		videoCodec.setRTX(
+			codecs.find((val) => val.name == "VP8")?.rtx_payload_type ?? 103,
+		);
+		videoCodec.addParam("x-google-max-bitrate", "2500");
+		videoMedia.addCodec(videoCodec);
+		*/
 
 		videoMedia.addExtension(
 			getIdForHeader(
@@ -193,6 +206,16 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 		const candidates = transport.getLocalCandidates();
 		const candidate = candidates[0];
 
+		//Create local SDP info
+		const answerSdp = new SDPInfo();
+		//Add ice and dtls info
+		answerSdp.setDTLS(dtls);
+		answerSdp.setICE(ice);
+
+		answerSdp.medias = [audioMedia, videoMedia]
+
+		transport.setLocalProperties(answerSdp);
+
 		const answer =
 			`m=audio ${this.port} ICE/SDP\n` +
 			`a=fingerprint:${fingerprint}\n` +
@@ -203,7 +226,7 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 			`a=fingerprint:${fingerprint}\n` +
 			`a=candidate:1 1 ${candidate.getTransport()} ${candidate.getFoundation()} ${candidate.getAddress()} ${candidate.getPort()} typ host\n`;
 
-		return Promise.resolve(answer);
+		return Promise.resolve({sdp: answer, selectedVideoCodec: videoCodec.codec.toUpperCase()});
 	}
 
 	public onClientClose = (client: WebRtcClient<any>) => {
