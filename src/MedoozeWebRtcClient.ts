@@ -126,17 +126,14 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 		const id = `${type}-${this.user_id}`;
 		const track = this.incomingStream?.getTrack(id);
 
-		if(!track) return;
 		if(!this.room) return;
 
 		for (const otherClient of this.room.clients.values()) {
 			//remove outgoing track for this user
-			otherClient.outgoingStream
-				?.getTrack(type)
-				?.stop();
+			otherClient.outgoingStream?.getTrack(id)?.stop();
 		}
 
-		track.stop();
+		track?.stop();
 	}
 
 	public subscribeToTrack(user_id: string, type: "audio" | "video") {
@@ -165,7 +162,7 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 			};
 		}
 
-		const outgoingTrack = this.transport?.createOutgoingStreamTrack(
+		const outgoingTrack = this.transport.createOutgoingStreamTrack(
 			incomingTrack.media,
 			{ id, ssrcs, media: incomingTrack.media },
 			this.outgoingStream,
