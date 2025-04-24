@@ -69,14 +69,18 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 		return false;
 	}
 
+	public initIncomingSSRCs(ssrcs: SSRCs):void {
+		this.incomingSSRCS = ssrcs;
+	}
+
 	public getIncomingStreamSSRCs(): SSRCs {
 		if (!this.webrtcConnected)
 			return { audio_ssrc: 0, video_ssrc: 0, rtx_ssrc: 0 };
 
 		return {
-			audio_ssrc: this.incomingSSRCS?.audio_ssrc ?? 0,
-			video_ssrc: this.incomingSSRCS?.video_ssrc ?? 0,
-			rtx_ssrc: this.incomingSSRCS?.rtx_ssrc ?? 0,
+			audio_ssrc: this.incomingSSRCS?.audio_ssrc,
+			video_ssrc: this.incomingSSRCS?.video_ssrc,
+			rtx_ssrc: this.incomingSSRCS?.rtx_ssrc,
 		};
 	}
 
@@ -89,9 +93,9 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 		const video_ssrc = videoTrack?.getSSRCs();
 
 		return {
-			audio_ssrc: audio_ssrc?.media ?? 0,
-			video_ssrc: video_ssrc?.media ?? 0,
-			rtx_ssrc: video_ssrc?.rtx ?? 0,
+			audio_ssrc: audio_ssrc?.media,
+			video_ssrc: video_ssrc?.media,
+			rtx_ssrc: video_ssrc?.rtx,
 		};
 	}
 

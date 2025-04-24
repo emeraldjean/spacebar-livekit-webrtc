@@ -38,14 +38,12 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 		ws: any,
 		type: "guild-voice" | "dm-voice" | "stream",
 	): WebRtcClient<any> {
-		// make sure user isn't already in a room of the same type
-		// user can be in two simultanous rooms of different type though (can be in a voice channel and watching a stream for example)
-		const rooms = this.rooms
+		// if this is guild-voice or dm-voice, make sure user isn't already in a room of those types
+		// user can be in many simultanous go live stream rooms though (can be in a voice channel and watching a stream for example, or watching multiple streams)
+		const rooms = type === "stream" ? [] : this.rooms
 			.values()
 			.filter((room) =>
-				type === "stream"
-					? room.type === "stream"
-					: room.type === "dm-voice" || room.type === "guild-voice",
+				room.type === "dm-voice" || room.type === "guild-voice",
 			);
 		let existingClient;
 
