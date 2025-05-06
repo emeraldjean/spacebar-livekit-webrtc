@@ -37,7 +37,7 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 		userId: string,
 		ws: any,
 		type: "guild-voice" | "dm-voice" | "stream",
-	): WebRtcClient<any> {
+	): Promise<WebRtcClient<any>> {
 		// if this is guild-voice or dm-voice, make sure user isn't already in a room of those types
 		// user can be in many simultanous go live stream rooms though (can be in a voice channel and watching a stream for example, or watching multiple streams)
 		const rooms = type === "stream" ? [] : this.rooms
@@ -71,7 +71,7 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 
 		room?.onClientJoin(client);
 
-		return client;
+		return Promise.resolve(client);
 	}
 
 	public async onOffer(
@@ -102,6 +102,8 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 			return -1;
 		};
 
+		const isChromium = codecs.find((val) => val.name == "opus")?.payload_type === 111;
+
 		const audioMedia = new MediaInfo("0", "audio");
 		const audioCodec = new CodecInfo(
 			"opus",
@@ -120,7 +122,7 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 			),
 			"urn:ietf:params:rtp-hdrext:ssrc-audio-level",
 		);
-		if (audioCodec.type === 111)
+		if (isChromium) {
 			// if this is chromium, apply this header
 			audioMedia.addExtension(
 				getIdForHeader(
@@ -129,6 +131,7 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 				),
 				"http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-01",
 			);
+		}
 
 		const videoMedia = new MediaInfo("1", "video");
 
@@ -183,12 +186,13 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 			"http://www.ietf.org/id/draft-holmer-rmcat-transport-wide-cc-extensions-01",
 		);
 
-		if (audioCodec.type === 111)
+		if (isChromium) {
 			// if this is chromium, apply this header
 			videoMedia.addExtension(
 				getIdForHeader(rtpHeaders, "urn:3gpp:video-orientation"),
 				"urn:3gpp:video-orientation",
 			);
+		}
 
 		offer.medias = [audioMedia, videoMedia];
 

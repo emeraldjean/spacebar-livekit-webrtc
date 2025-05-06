@@ -100,14 +100,14 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 	}
 
 	public publishTrack(type: "audio" | "video", ssrc: SSRCs) {
-		if (!this.transport) return;
+		if (!this.transport) return Promise.resolve();
 
 		const id = `${type}-${this.user_id}`;
 		const existingTrack = this.incomingStream?.getTrack(id);
 
 		if (existingTrack) {
 			console.error(`error: attempted to create duplicate track ${id}`);
-			return;
+			return Promise.resolve();
 		}
 		let ssrcs;
 		if (type === "audio") {
@@ -123,6 +123,7 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 			this.incomingStream,
 		);
 
+		return Promise.resolve();
 		//this.channel?.onClientPublishTrack(this, track, ssrcs);
 	}
 
@@ -141,7 +142,7 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 	}
 
 	public subscribeToTrack(user_id: string, type: "audio" | "video") {
-		if (!this.transport) return;
+		if (!this.transport) return Promise.resolve();
 
 		const id = `${type}-${user_id}`;
 
@@ -151,7 +152,7 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 
 		if (!incomingTrack) {
 			console.error(`error subscribing, not track found ${id}`);
-			return;
+			return Promise.resolve();
 		}
 
 		let ssrcs;
@@ -173,6 +174,8 @@ export class MedoozeWebRtcClient implements WebRtcClient<any> {
 		);
 
 		outgoingTrack?.attachTo(incomingTrack);
+
+		return Promise.resolve();
 	}
 
 	public unSubscribeFromTrack(user_id: string, type: "audio" | "video"): void {
