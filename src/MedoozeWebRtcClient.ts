@@ -5,7 +5,7 @@ import {
 } from "@dank074/medooze-media-server";
 import type { ClientEmitter, SSRCs, WebRtcClient } from "spacebar-webrtc-types";
 import { VoiceRoom } from "./VoiceRoom";
-import EventEmitter from "events";
+import { EventEmitter } from "events";
 
 export class MedoozeWebRtcClient implements WebRtcClient<any> {
 	websocket: any;
