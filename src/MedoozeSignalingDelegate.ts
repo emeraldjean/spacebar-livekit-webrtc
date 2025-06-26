@@ -1,6 +1,6 @@
 import { CodecInfo, MediaInfo, SDPInfo } from "semantic-sdp";
-import type { SignalingDelegate, Codec, WebRtcClient } from "spacebar-webrtc-types";
-import { MediaServer, Endpoint } from "@dank074/medooze-media-server";
+import type { SignalingDelegate, Codec, WebRtcClient } from "@spacebarchat/spacebar-webrtc-types";
+import { MediaServer, Endpoint } from "@spacebarchat/medooze-media-server";
 import { VoiceRoom } from "./VoiceRoom";
 import { MedoozeWebRtcClient } from "./MedoozeWebRtcClient";
 

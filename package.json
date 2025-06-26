@@ -1,7 +1,7 @@
 {
-    "name": "medooze-spacebar-wrtc",
+    "name": "@spacebarchat/medooze-webrtc",
     "version": "1.0.6",
-    "description": "A webrtc server implementation compatible with Spacebar that uses Medooze Media server library",
+    "description": "A WebRTC server implementation compatible with Spacebar using the Medooze Media server library",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "files": [
@@ -12,29 +12,28 @@
         "access": "public"
     },
     "scripts": {
-        "build": "tsc",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "build": "tsc"
     },
     "dependencies": {
-        "@dank074/medooze-media-server": "1.156.4",
+        "@spacebarchat/medooze-media-server": "^1.156.5",
         "semantic-sdp": "^3.31.1"
     },
     "devDependencies": {
+        "@spacebarchat/spacebar-webrtc-types": "^1.0.1",
         "@types/node": "^20.17.1",
-        "typescript": "^5.6.3",
-        "spacebar-webrtc-types": "github:dank074/spacebar-webrtc-types"
+        "typescript": "^5.6.3"
     },
     "peerDependencies": {
-        "spacebar-webrtc-types": "github:dank074/spacebar-webrtc-types"
+        "@spacebarchat/spacebar-webrtc-types": "^1.0.1"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/dank074/medooze-spacebar-wrtc.git"
+        "url": "git+https://github.com/spacebarchat/medooze-webrtc.git"
     },
-    "author": "",
-    "license": "ISC",
+    "author": "Spacebar",
+    "license": "AGPL-3.0-only",
     "bugs": {
-        "url": "https://github.com/dank074/medooze-spacebar-wrtc/issues"
+        "url": "https://github.com/spacebarchat/medooze-webrtc/issues"
     },
-    "homepage": "https://github.com/dank074/medooze-spacebar-wrtc#readme"
+    "homepage": "https://spacebar.chat"
 }

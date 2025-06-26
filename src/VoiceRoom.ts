@@ -3,7 +3,7 @@ import {
     IncomingStreamTrack,
     SSRCs,
     Transport,
-} from "@dank074/medooze-media-server";
+} from "@spacebarchat/medooze-media-server";
 import { MedoozeWebRtcClient } from "./MedoozeWebRtcClient";
 import { StreamInfo } from "semantic-sdp";
 

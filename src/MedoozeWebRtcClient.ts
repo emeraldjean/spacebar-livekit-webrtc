@@ -2,8 +2,8 @@ import {
 	IncomingStream,
 	OutgoingStream,
 	Transport,
-} from "@dank074/medooze-media-server";
-import type { ClientEmitter, SSRCs, WebRtcClient } from "spacebar-webrtc-types";
+} from "@spacebarchat/medooze-media-server";
+import type { ClientEmitter, SSRCs, WebRtcClient } from "@spacebarchat/spacebar-webrtc-types";
 import { VoiceRoom } from "./VoiceRoom";
 import { EventEmitter } from "events";
 
