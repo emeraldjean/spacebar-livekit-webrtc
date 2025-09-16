@@ -40,8 +40,7 @@ export class MedoozeSignalingDelegate implements SignalingDelegate {
 	): Promise<WebRtcClient<any>> {
 		// if this is guild-voice or dm-voice, make sure user isn't already in a room of those types
 		// user can be in many simultanous go live stream rooms though (can be in a voice channel and watching a stream for example, or watching multiple streams)
-		const rooms = type === "stream" ? [] : this.rooms
-			.values()
+		const rooms = type === "stream" ? [] : Array.from(this.rooms.values())
 			.filter((room) =>
 				room.type === "dm-voice" || room.type === "guild-voice",
 			);
