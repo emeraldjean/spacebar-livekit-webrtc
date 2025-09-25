@@ -13,11 +13,11 @@ A Spacebar-compatible WebRTC server
 Simply install it to your spacebar server by running the following command:
 
 ```
-npm install @spacebarchat/medooze-spacebar-wrtc --no-save
+npm install @spacebarchat/medooze-webrtc --no-save
 ```
 
 then in your spacebar .env configure the server to load this package:
 
 ```
-WRTC_LIBRARY=@spacebarchat/medooze-spacebar-wrtc
+WRTC_LIBRARY=@spacebarchat/medooze-webrtc
 ```
