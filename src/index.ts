@@ -1,3 +1,4 @@
-import { MedoozeSignalingDelegate } from "./MedoozeSignalingDelegate";
+import { LiveKitSignalingDelegate } from "./LiveKitSignalingDelegate";
 
-export default MedoozeSignalingDelegate;
+export default LiveKitSignalingDelegate;
+export { LiveKitSignalingDelegate };
