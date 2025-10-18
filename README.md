@@ -1,6 +1,8 @@
-# LiveKit Spacebar WebRTC
+# Spacebar LiveKit WebRTC
 
 A WebRTC server implementation compatible with Spacebar using LiveKit for enhanced scalability and features.
+
+> **Note**: This is a community-maintained fork of the original Spacebar WebRTC implementation, enhanced with LiveKit integration for improved performance and features.
 
 ## Features
 
@@ -23,7 +25,7 @@ A WebRTC server implementation compatible with Spacebar using LiveKit for enhanc
 Install the package in your Spacebar server:
 
 ```bash
-npm install @spacebarchat/livekit-webrtc --no-save
+npm install @emeraldjean/spacebar-livekit-webrtc --no-save
 ```
 
 ## Configuration
@@ -39,7 +41,7 @@ LIVEKIT_API_KEY=your-api-key
 LIVEKIT_API_SECRET=your-api-secret
 
 # WebRTC Configuration (for compatibility)
-WRTC_LIBRARY=@spacebarchat/livekit-webrtc
+WRTC_LIBRARY=@emeraldjean/spacebar-livekit-webrtc
 WEBRTC_PORT_RANGE=10000-20000
 ```
 
@@ -48,7 +50,7 @@ WEBRTC_PORT_RANGE=10000-20000
 In your Spacebar `.env` file, configure the server to load this package:
 
 ```env
-WRTC_LIBRARY=@spacebarchat/livekit-webrtc
+WRTC_LIBRARY=@emeraldjean/spacebar-livekit-webrtc
 ```
 
 ## LiveKit Server Setup
@@ -150,7 +152,7 @@ await egressClient.startRoomCompositeEgress(roomName, {
 
 - [LiveKit Documentation](https://docs.livekit.io)
 - [Spacebar Discord](https://discord.gg/spacebar)
-- [GitHub Issues](https://github.com/spacebarchat/livekit-webrtc/issues)
+- [GitHub Issues](https://github.com/emeraldjean/spacebar-livekit-webrtc/issues)
 
 ## License
 

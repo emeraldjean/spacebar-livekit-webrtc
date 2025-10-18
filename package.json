@@ -1,21 +1,37 @@
 {
-    "name": "@spacebarchat/livekit-webrtc",
-    "version": "2.0.0",
-    "description": "A WebRTC server implementation compatible with Spacebar using LiveKit",
+    "name": "@emeraldjean/spacebar-livekit-webrtc",
+    "version": "1.0.0",
+    "description": "A WebRTC server implementation compatible with Spacebar using LiveKit for enhanced scalability and features",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "keywords": [
+        "spacebar",
+        "webrtc",
+        "livekit",
+        "voice",
+        "video",
+        "streaming",
+        "sfu",
+        "real-time",
+        "communication"
+    ],
     "files": [
         "dist",
-        "src"
+        "README.md",
+        "LICENSE"
     ],
     "publishConfig": {
         "access": "public"
     },
     "scripts": {
         "build": "tsc",
+        "prepublishOnly": "npm run build",
+        "prepack": "npm run build",
         "test": "jest",
         "test:watch": "jest --watch",
-        "test:coverage": "jest --coverage"
+        "test:coverage": "jest --coverage",
+        "clean": "rm -rf dist",
+        "dev": "npm run build && npm test"
     },
     "dependencies": {
         "livekit-server-sdk": "^2.0.0",
@@ -34,12 +50,12 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/spacebarchat/livekit-webrtc.git"
+        "url": "git+https://github.com/emeraldjean/spacebar-livekit-webrtc.git"
     },
-    "author": "Spacebar",
+    "author": "emeraldjean",
     "license": "AGPL-3.0-only",
     "bugs": {
-        "url": "https://github.com/spacebarchat/livekit-webrtc/issues"
+        "url": "https://github.com/emeraldjean/spacebar-livekit-webrtc/issues"
     },
-    "homepage": "https://spacebar.chat"
+    "homepage": "https://github.com/emeraldjean/spacebar-livekit-webrtc#readme"
 }
