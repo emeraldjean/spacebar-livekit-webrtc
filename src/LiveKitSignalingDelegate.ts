@@ -24,7 +24,7 @@ export class LiveKitSignalingDelegate implements SignalingDelegate {
 		this._roomServiceClient = new RoomServiceClient(this._livekitUrl, this._apiKey, this._apiSecret);
 	}
 
-	public start(public_ip: string, portMin: number, portMax: number): Promise<void> {
+	public start(public_ip: string, portMin: number, _: number): Promise<void> {
 		this._ip = public_ip;
 		// For LiveKit, we don't need to manage ports directly as the server handles this
 		// We'll use a default port for compatibility

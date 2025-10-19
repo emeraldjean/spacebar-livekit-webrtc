@@ -28,6 +28,35 @@ Install the package in your Spacebar server:
 npm install @emeraldjean/spacebar-livekit-webrtc --no-save
 ```
 
+### Native Dependencies
+
+This package includes native dependencies for LiveKit's WebRTC functionality. The appropriate native binary for your platform will be automatically installed as an optional dependency:
+
+- **macOS (Apple Silicon)**: `@livekit/rtc-node-darwin-arm64`
+- **macOS (Intel)**: `@livekit/rtc-node-darwin-x64`
+- **Linux (ARM64)**: `@livekit/rtc-node-linux-arm64-gnu`
+- **Linux (x64)**: `@livekit/rtc-node-linux-x64-gnu`
+- **Windows (x64)**: `@livekit/rtc-node-win32-x64-msvc`
+
+If you encounter issues with native dependencies, you may need to install the appropriate platform-specific package manually:
+
+```bash
+# For macOS Apple Silicon
+npm install @livekit/rtc-node-darwin-arm64@0.13.20
+
+# For macOS Intel
+npm install @livekit/rtc-node-darwin-x64@0.13.20
+
+# For Linux ARM64
+npm install @livekit/rtc-node-linux-arm64-gnu@0.13.20
+
+# For Linux x64
+npm install @livekit/rtc-node-linux-x64-gnu@0.13.20
+
+# For Windows x64
+npm install @livekit/rtc-node-win32-x64-msvc@0.13.20
+```
+
 ## Configuration
 
 ### Environment Variables
@@ -147,6 +176,31 @@ await egressClient.startRoomCompositeEgress(roomName, {
 - LiveKit's SFU architecture provides better performance than mesh networks
 - Monitor server resources and scale as needed
 - Use LiveKit Cloud for automatic scaling
+
+## Troubleshooting
+
+### Native Dependency Issues
+
+If you encounter errors like `MODULE_NOT_FOUND` when importing the package, it usually means the native dependencies aren't installed correctly. Try the following:
+
+1. **Clear npm cache and reinstall**:
+   ```bash
+   npm cache clean --force
+   rm -rf node_modules package-lock.json
+   npm install
+   ```
+
+2. **Install the correct native dependency manually** (see Installation section above)
+
+3. **Check your Node.js version**: This package requires Node.js 18 or higher
+
+4. **Verify platform compatibility**: Ensure you're using a supported platform (macOS, Linux, or Windows)
+
+### Common Issues
+
+- **"Cannot find module" errors**: Usually related to missing native dependencies
+- **Import/require failures**: Check that all optional dependencies are installed
+- **Build errors**: Ensure you have the correct build tools for your platform
 
 ## Support
 

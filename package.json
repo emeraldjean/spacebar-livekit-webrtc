@@ -1,6 +1,6 @@
 {
     "name": "@emeraldjean/spacebar-livekit-webrtc",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A WebRTC server implementation compatible with Spacebar using LiveKit for enhanced scalability and features",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -27,6 +27,7 @@
         "build": "tsc",
         "prepublishOnly": "npm run build",
         "prepack": "npm run build",
+        "postinstall": "node -e \"try { require('@livekit/rtc-node'); } catch(e) { console.log('Note: @livekit/rtc-node native dependencies may need to be installed separately for your platform.'); }\"",
         "test": "jest",
         "test:watch": "jest --watch",
         "test:coverage": "jest --coverage",
@@ -34,13 +35,13 @@
         "dev": "npm run build && npm test"
     },
     "dependencies": {
-        "livekit-server-sdk": "^2.0.0",
-        "@livekit/rtc-node": "^0.13.20"
+        "@livekit/rtc-node": "^0.13.20",
+        "livekit-server-sdk": "^2.0.0"
     },
     "devDependencies": {
         "@spacebarchat/spacebar-webrtc-types": "^1.0.1",
-        "@types/node": "^20.17.1",
         "@types/jest": "^29.5.0",
+        "@types/node": "^20.17.1",
         "jest": "^29.5.0",
         "ts-jest": "^29.1.0",
         "typescript": "^5.6.3"
@@ -57,5 +58,15 @@
     "bugs": {
         "url": "https://github.com/emeraldjean/spacebar-livekit-webrtc/issues"
     },
-    "homepage": "https://github.com/emeraldjean/spacebar-livekit-webrtc#readme"
+    "homepage": "https://github.com/emeraldjean/spacebar-livekit-webrtc#readme",
+    "directories": {
+        "test": "tests"
+    },
+    "optionalDependencies": {
+        "@livekit/rtc-node-darwin-arm64": "0.13.20",
+        "@livekit/rtc-node-darwin-x64": "0.13.20",
+        "@livekit/rtc-node-linux-arm64-gnu": "0.13.20",
+        "@livekit/rtc-node-linux-x64-gnu": "0.13.20",
+        "@livekit/rtc-node-win32-x64-msvc": "0.13.20"
+    }
 }
