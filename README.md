@@ -2,16 +2,62 @@
 
 A WebRTC server implementation compatible with Spacebar using LiveKit for enhanced scalability and features.
 
-> **Note**: This is a community-maintained fork of the original Spacebar WebRTC implementation, enhanced with LiveKit integration for improved performance and features.
+> **⚠️ WORK IN PROGRESS**: This is an experimental, community-maintained fork that is currently under heavy development. The implementation is not yet production-ready and may have bugs, missing features, or breaking changes. We encourage testing and contributions from the community!
+
+> **Note**: This project replaces the original Medooze-based WebRTC implementation with LiveKit integration for improved performance and features.
 
 ## Features
 
 - **LiveKit Integration**: Modern SFU architecture with better scalability than traditional mesh networks
-- **Automatic Codec Negotiation**: LiveKit handles codec selection and adaptation automatically
-- **Built-in Recording**: Support for recording audio/video sessions
-- **Streaming Support**: RTMP/HLS streaming capabilities
+- **Server-side Management**: Handles room management, token generation, and signaling coordination
+- **Client Direct Connection**: Spacebar clients connect directly to LiveKit (not through our server)
+- **Webhook Support**: Handles LiveKit webhooks for real-time updates
 - **Cross-platform**: Works on Linux, macOS, and Windows
 - **Backward Compatibility**: Maintains the same interface as the original Medooze implementation
+
+## Architecture
+
+This implementation uses a **hybrid architecture**:
+
+1. **Spacebar Server** (this package):
+   - Manages rooms via LiveKit Server SDK
+   - Generates access tokens for clients
+   - Handles signaling coordination
+   - Processes LiveKit webhooks
+
+2. **Spacebar Clients**:
+   - Connect directly to LiveKit using the provided tokens
+   - Handle WebRTC connections through LiveKit's infrastructure
+   - No direct connection to our server for media
+
+3. **LiveKit Server**:
+   - Handles all WebRTC media processing
+   - Manages SFU (Selective Forwarding Unit) functionality
+   - Provides recording, streaming, and other advanced features
+
+## Current Status
+
+### ✅ Implemented
+- Basic LiveKit integration
+- Signaling delegate interface
+- WebRTC client management
+- Room state management
+- Token generation and authentication
+- Cross-platform native dependencies
+
+### 🚧 In Progress
+- Complete feature parity with Medooze implementation
+- Advanced LiveKit features (recording, streaming, etc.)
+- Performance optimization
+- Error handling improvements
+- Documentation completion
+
+### ❓ Planned
+- Comprehensive testing suite
+- Production-ready error handling
+- Advanced configuration options
+- Performance monitoring
+- Migration guides
 
 ## Supported Environments
 
@@ -28,34 +74,20 @@ Install the package in your Spacebar server:
 npm install @emeraldjean/spacebar-livekit-webrtc --no-save
 ```
 
-### Native Dependencies
+### Dependencies
 
-This package includes native dependencies for LiveKit's WebRTC functionality. The appropriate native binary for your platform will be automatically installed as an optional dependency:
+This package only requires the LiveKit Server SDK for server-side operations. No native dependencies are needed as WebRTC processing is handled by the LiveKit server.
 
-- **macOS (Apple Silicon)**: `@livekit/rtc-node-darwin-arm64`
-- **macOS (Intel)**: `@livekit/rtc-node-darwin-x64`
-- **Linux (ARM64)**: `@livekit/rtc-node-linux-arm64-gnu`
-- **Linux (x64)**: `@livekit/rtc-node-linux-x64-gnu`
-- **Windows (x64)**: `@livekit/rtc-node-win32-x64-msvc`
+## ⚠️ Important: Testing and Feedback Needed
 
-If you encounter issues with native dependencies, you may need to install the appropriate platform-specific package manually:
+**This implementation is experimental and needs extensive testing!** 
 
-```bash
-# For macOS Apple Silicon
-npm install @livekit/rtc-node-darwin-arm64@0.13.20
+- The code may have bugs or missing features
+- Breaking changes may occur between versions
+- Not recommended for production use yet
+- We need your help to make it stable and feature-complete
 
-# For macOS Intel
-npm install @livekit/rtc-node-darwin-x64@0.13.20
-
-# For Linux ARM64
-npm install @livekit/rtc-node-linux-arm64-gnu@0.13.20
-
-# For Linux x64
-npm install @livekit/rtc-node-linux-x64-gnu@0.13.20
-
-# For Windows x64
-npm install @livekit/rtc-node-win32-x64-msvc@0.13.20
-```
+**Please test this implementation and report any issues you find!**
 
 ## Configuration
 
@@ -179,9 +211,9 @@ await egressClient.startRoomCompositeEgress(roomName, {
 
 ## Troubleshooting
 
-### Native Dependency Issues
+### Common Issues
 
-If you encounter errors like `MODULE_NOT_FOUND` when importing the package, it usually means the native dependencies aren't installed correctly. Try the following:
+If you encounter errors when using the package, try the following:
 
 1. **Clear npm cache and reinstall**:
    ```bash
@@ -190,17 +222,68 @@ If you encounter errors like `MODULE_NOT_FOUND` when importing the package, it u
    npm install
    ```
 
-2. **Install the correct native dependency manually** (see Installation section above)
+2. **Check your Node.js version**: This package requires Node.js 18 or higher
 
-3. **Check your Node.js version**: This package requires Node.js 18 or higher
+3. **Verify LiveKit server connectivity**: Ensure your LiveKit server is running and accessible
 
-4. **Verify platform compatibility**: Ensure you're using a supported platform (macOS, Linux, or Windows)
+4. **Check environment variables**: Ensure all required LiveKit configuration is set correctly
 
-### Common Issues
+### Error Types
 
-- **"Cannot find module" errors**: Usually related to missing native dependencies
-- **Import/require failures**: Check that all optional dependencies are installed
-- **Build errors**: Ensure you have the correct build tools for your platform
+- **"Cannot find module" errors**: Usually related to missing dependencies or incorrect imports
+- **Import/require failures**: Check that all dependencies are installed correctly
+- **LiveKit connection errors**: Verify LiveKit server URL and credentials
+- **Token generation errors**: Check API key and secret configuration
+
+## Contributing
+
+We welcome contributions from the community! This project is in active development and there are many opportunities to help:
+
+### How to Contribute
+
+1. **Fork the repository** and create a feature branch
+2. **Test the current implementation** and report any issues
+3. **Submit pull requests** for bug fixes or new features
+4. **Improve documentation** and examples
+5. **Share feedback** and suggestions
+
+### Areas Needing Help
+
+- **Testing**: Help test the implementation with different Spacebar configurations
+- **Bug Reports**: Report issues you encounter during testing
+- **Feature Development**: Implement missing features or improvements
+- **Documentation**: Improve README, code comments, and examples
+- **Performance**: Help optimize the implementation
+- **Cross-platform Testing**: Test on different operating systems
+
+### Development Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/emeraldjean/spacebar-livekit-webrtc.git
+cd spacebar-livekit-webrtc
+
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+```
+
+### Reporting Issues
+
+When reporting issues, please include:
+- Your operating system and Node.js version
+- Spacebar version you're testing with
+- Steps to reproduce the issue
+- Expected vs actual behavior
+- Any error messages or logs
 
 ## Support
 

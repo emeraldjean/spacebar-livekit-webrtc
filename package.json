@@ -1,7 +1,7 @@
 {
     "name": "@emeraldjean/spacebar-livekit-webrtc",
-    "version": "1.0.1",
-    "description": "A WebRTC server implementation compatible with Spacebar using LiveKit for enhanced scalability and features",
+    "version": "1.0.2",
+    "description": "A WebRTC server implementation compatible with Spacebar using LiveKit (WORK IN PROGRESS - Experimental)",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "keywords": [
@@ -13,7 +13,10 @@
         "streaming",
         "sfu",
         "real-time",
-        "communication"
+        "communication",
+        "experimental",
+        "work-in-progress",
+        "beta"
     ],
     "files": [
         "dist",
@@ -35,7 +38,6 @@
         "dev": "npm run build && npm test"
     },
     "dependencies": {
-        "@livekit/rtc-node": "^0.13.20",
         "livekit-server-sdk": "^2.0.0"
     },
     "devDependencies": {
@@ -61,12 +63,5 @@
     "homepage": "https://github.com/emeraldjean/spacebar-livekit-webrtc#readme",
     "directories": {
         "test": "tests"
-    },
-    "optionalDependencies": {
-        "@livekit/rtc-node-darwin-arm64": "0.13.20",
-        "@livekit/rtc-node-darwin-x64": "0.13.20",
-        "@livekit/rtc-node-linux-arm64-gnu": "0.13.20",
-        "@livekit/rtc-node-linux-x64-gnu": "0.13.20",
-        "@livekit/rtc-node-win32-x64-msvc": "0.13.20"
     }
 }
