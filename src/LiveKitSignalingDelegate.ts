@@ -13,6 +13,7 @@ export class LiveKitSignalingDelegate implements SignalingDelegate {
 	private _livekitUrl: string;
 
 	constructor(apiKey?: string, apiSecret?: string, livekitUrl?: string) {
+		console.log("LiveKitSignalingDelegate constructor", apiKey, apiSecret, livekitUrl);
 		this._apiKey = apiKey || process.env.LIVEKIT_API_KEY || "";
 		this._apiSecret = apiSecret || process.env.LIVEKIT_API_SECRET || "";
 		this._livekitUrl = livekitUrl || process.env.LIVEKIT_URL || "ws://localhost:7880";

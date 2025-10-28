@@ -1,6 +1,6 @@
 {
     "name": "@emeraldjean/spacebar-livekit-webrtc",
-    "version": "1.0.2",
+    "version": "1.0.4",
     "description": "A WebRTC server implementation compatible with Spacebar using LiveKit (WORK IN PROGRESS - Experimental)",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",

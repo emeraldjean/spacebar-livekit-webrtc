@@ -1,4 +1,7 @@
 import { LiveKitSignalingDelegate } from "./LiveKitSignalingDelegate";
 
-export default LiveKitSignalingDelegate;
-export { LiveKitSignalingDelegate };
+// Export the class as default for Spacebar compatibility  
+// Spacebar uses: new (await import(selectedWrtcLibrary)).default()
+export default {LiveKitSignalingDelegate};
+
+
